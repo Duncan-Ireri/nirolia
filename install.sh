@@ -16,8 +16,8 @@ GRN='\033[0;32m'
 CYN='\033[0;36m'
 RST='\033[0m'
 
-REPO_URL="https://github.com/Duncan-Ireri/niri-noctalia-eos.git"
-CLONE_DIR="$HOME/.cache/niri-noctalia-eos"
+REPO_URL="https://github.com/Duncan-Ireri/nirolia.git"
+CLONE_DIR="$HOME/.cache/nirolia"
 
 echo -e "${CYN}"
 cat << 'EOF'

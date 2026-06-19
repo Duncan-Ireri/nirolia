@@ -5,7 +5,7 @@ Interactive, modular installer for Niri + Noctalia Shell on EndeavourOS / Arch L
 ## Quick Install
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/Duncan-Ireri/niri-noctalia-eos/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/Duncan-Ireri/nirolia/main/install.sh)
 ```
 
 ## Project Structure
