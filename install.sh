@@ -10,6 +10,11 @@
 
 set -euo pipefail
 
+# Ensure we're in a valid working directory before doing anything.
+# Prevents "Unable to read current working directory" when the caller's
+# cwd has been deleted (common after rm -rf of a project folder).
+cd "$HOME"
+
 RED='\033[0;31m'
 GRN='\033[0;32m'
 CYN='\033[0;36m'
