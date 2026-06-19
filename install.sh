@@ -3,10 +3,9 @@
 #  install.sh — Entry point for curl-based installation
 #
 #  Usage:
-#    bash <(curl -sL https://raw.githubusercontent.com/USER/niri-noctalia-eos/main/install.sh)
+#    bash <(curl -sL https://raw.githubusercontent.com/Duncan-Ireri/nirolia/main/install.sh)
 #
-#  This script clones the full repo (needed for configs and module scripts)
-#  then hands off to setup.sh which orchestrates everything.
+#  Clones the full repo (configs + module scripts) then runs setup.sh.
 # ---------------------------------------------------------------------------
 
 set -euo pipefail
@@ -21,9 +20,11 @@ CLONE_DIR="$HOME/.cache/nirolia"
 
 echo -e "${CYN}"
 cat << 'EOF'
-    ╔═╗╦╦═╗╦  ╔╗╔╔═╗╔═╗╔╦╗╔═╗╦  ╦╔═╗
-    ║╠╝║╠╦╝║  ║║║║ ║║   ║ ╠═╣║  ║╠═╣
-    ╝╚╝╩╩╚═╩═╝╝╚╝╚═╝╚═╝ ╩ ╩ ╩╩═╝╩╩ ╩
+    ╔╗╔╦╦═╗╔═╗╦  ╦╔═╗
+    ║║║║╠╦╝║ ║║  ║╠═╣
+    ╝╚╝╩╩╚═╚═╝╩═╝╩╩ ╩
+    Niri + Noctalia Shell Installer
+    for EndeavourOS / Arch Linux
 EOF
 echo -e "${RST}"
 
@@ -50,8 +51,20 @@ else
     cd "$CLONE_DIR"
 fi
 
+# Verify repo structure before proceeding
+if [[ ! -d "$CLONE_DIR/scripts" ]] || [[ ! -f "$CLONE_DIR/setup.sh" ]]; then
+    echo -e "${RED}[FAIL]${RST}  Repo structure is incomplete."
+    echo "  Expected directories: scripts/ configs/"
+    echo "  Expected files: setup.sh, scripts/lib.sh"
+    echo ""
+    echo "  Make sure you pushed the full directory tree:"
+    echo "    git add -A && git commit -m 'fix structure' && git push"
+    exit 1
+fi
+
 # Make scripts executable
-chmod +x setup.sh scripts/*.sh
+chmod +x "$CLONE_DIR/setup.sh"
+find "$CLONE_DIR/scripts" -name '*.sh' -exec chmod +x {} \;
 
 # Hand off to the orchestrator
-exec bash setup.sh
+exec bash "$CLONE_DIR/setup.sh"

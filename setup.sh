@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # ---------------------------------------------------------------------------
-#  setup.sh — Main orchestrator for niri-noctalia-eos installer
-#
+#  setup.sh — Main orchestrator for nirolia installer
 #  Runs module scripts in sequence based on user-selected categories.
-#  Each module handles its own whiptail sub-menus for package selection.
 # ---------------------------------------------------------------------------
 
 set -uo pipefail
@@ -20,9 +18,9 @@ source "$SCRIPT_DIR/scripts/lib.sh"
 # -- Banner ------------------------------------------------------------------
 echo -e "${CYN}"
 cat << 'EOF'
-    ╔═╗╦╦═╗╦  ╔╗╔╔═╗╔═╗╔╦╗╔═╗╦  ╦╔═╗
-    ║╠╝║╠╦╝║  ║║║║ ║║   ║ ╠═╣║  ║╠═╣
-    ╝╚╝╩╩╚═╩═╝╝╚╝╚═╝╚═╝ ╩ ╩ ╩╩═╝╩╩ ╩
+    ╔╗╔╦╦═╗╔═╗╦  ╦╔═╗
+    ║║║║╠╦╝║ ║║  ║╠═╣
+    ╝╚╝╩╩╚═╚═╝╩═╝╩╩ ╩
     Niri + Noctalia Shell Installer  v2.0.0
     for EndeavourOS / Arch Linux
 EOF
@@ -42,7 +40,7 @@ section "Select installation categories"
 nvidia_default="OFF"
 [[ "${HAS_NVIDIA:-false}" == true ]] && nvidia_default="ON"
 
-CATEGORIES=$(whiptail --title "Niri + Noctalia Installer" --checklist \
+CATEGORIES=$(whiptail --title "Nirolia Installer" --checklist \
     "Select what to install. Spacebar to toggle, Enter to confirm.\n\n\
 Core Desktop is required. Everything else is optional.\n\
 Each category will open a sub-menu for individual packages." \
@@ -74,49 +72,23 @@ export AUR HAS_NVIDIA CATEGORIES
 
 # -- Run selected modules ----------------------------------------------------
 
-if [[ "$CATEGORIES" =~ "CORE" ]]; then
-    source "$SCRIPT_DIR/scripts/01-core.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "AUDIO" ]]; then
-    source "$SCRIPT_DIR/scripts/02-audio.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "SHELL" ]]; then
-    source "$SCRIPT_DIR/scripts/03-shell.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "TERMINAL" ]]; then
-    source "$SCRIPT_DIR/scripts/04-terminal.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "DEVTOOLS" ]]; then
-    source "$SCRIPT_DIR/scripts/05-devtools.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "NVIDIA" ]]; then
-    source "$SCRIPT_DIR/scripts/06-nvidia.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "THEME" ]]; then
-    source "$SCRIPT_DIR/scripts/07-theming.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "APPS" ]]; then
-    source "$SCRIPT_DIR/scripts/08-apps.sh"
-fi
-
-if [[ "$CATEGORIES" =~ "CONFIGS" ]]; then
-    source "$SCRIPT_DIR/scripts/09-configs.sh"
-fi
+[[ "$CATEGORIES" =~ "CORE" ]]     && source "$SCRIPT_DIR/scripts/01-core.sh"
+[[ "$CATEGORIES" =~ "AUDIO" ]]    && source "$SCRIPT_DIR/scripts/02-audio.sh"
+[[ "$CATEGORIES" =~ "SHELL" ]]    && source "$SCRIPT_DIR/scripts/03-shell.sh"
+[[ "$CATEGORIES" =~ "TERMINAL" ]] && source "$SCRIPT_DIR/scripts/04-terminal.sh"
+[[ "$CATEGORIES" =~ "DEVTOOLS" ]] && source "$SCRIPT_DIR/scripts/05-devtools.sh"
+[[ "$CATEGORIES" =~ "NVIDIA" ]]   && source "$SCRIPT_DIR/scripts/06-nvidia.sh"
+[[ "$CATEGORIES" =~ "THEME" ]]    && source "$SCRIPT_DIR/scripts/07-theming.sh"
+[[ "$CATEGORIES" =~ "APPS" ]]     && source "$SCRIPT_DIR/scripts/08-apps.sh"
+[[ "$CATEGORIES" =~ "CONFIGS" ]]  && source "$SCRIPT_DIR/scripts/09-configs.sh"
 
 # -- Final report ------------------------------------------------------------
 section "Installation complete"
 
 echo ""
-echo -e "${GRN}${BLD}================================================${RST}"
-echo -e "${GRN}${BLD}  Niri + Noctalia Shell -- Install Complete      ${RST}"
-echo -e "${GRN}${BLD}================================================${RST}"
+echo -e "${GRN}${BLD}========================================${RST}"
+echo -e "${GRN}${BLD}  Nirolia -- Install Complete           ${RST}"
+echo -e "${GRN}${BLD}========================================${RST}"
 echo ""
 echo -e "  Packages installed:  ${GRN}$TOTAL_INSTALLED${RST}"
 echo -e "  Packages skipped:    ${CYN}$TOTAL_SKIPPED${RST}"

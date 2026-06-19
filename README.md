@@ -1,4 +1,4 @@
-# niri-noctalia-eos
+# nirolia
 
 Interactive, modular installer for Niri + Noctalia Shell on EndeavourOS / Arch Linux. Sets up a complete desktop environment and development workstation.
 
@@ -37,13 +37,13 @@ configs/
 
 ## Design Decisions
 
-**Modular scripts** -- Each concern is in its own file. Easy to maintain, test, or run individually. Want to re-run just the shell setup? `source scripts/lib.sh && source scripts/03-shell.sh`
+**Modular scripts** -- Each concern is in its own file. Want to re-run just the shell setup? `source scripts/lib.sh && source scripts/03-shell.sh`
 
-**Safe failovers** -- Every package installs individually. If one fails (wrong name, build error, network issue), it's logged to `~/.cache/niri-installer/failed_packages.log` and the installer continues.
+**Safe failovers** -- Every package installs individually. If one fails, it gets logged to `~/.cache/nirolia/failed_packages.log` and the installer continues.
 
-**Interactive selection** -- Top-level category checklist, then per-package sub-menus via whiptail. You see and control everything before it runs.
+**Interactive selection** -- Top-level category checklist, then per-package sub-menus via whiptail.
 
-**Zed via official script** -- Zed installs using `curl -f https://zed.dev/install.sh | sh` (their recommended method for Linux) rather than an AUR package, for faster updates.
+**Zed via official script** -- Zed installs using `curl -f https://zed.dev/install.sh | sh` rather than an AUR package.
 
 ## Font Defaults
 

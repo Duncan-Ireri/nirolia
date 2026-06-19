@@ -5,10 +5,10 @@
 
 # -- Globals -----------------------------------------------------------------
 SCRIPT_VERSION="2.0.0"
-CACHE_DIR="$HOME/.cache/niri-installer"
+CACHE_DIR="$HOME/.cache/nirolia"
 LOG="$CACHE_DIR/install.log"
 FAILED_LOG="$CACHE_DIR/failed_packages.log"
-REPO_DIR="$HOME/.cache/niri-noctalia-eos"
+REPO_DIR="$HOME/.cache/nirolia"
 
 mkdir -p "$CACHE_DIR"
 
