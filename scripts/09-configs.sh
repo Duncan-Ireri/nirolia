@@ -30,10 +30,18 @@ if [[ -f "$NIRI_CFG" ]]; then
     else
         write_config=false
         if ! grep -q 'noctalia-shell' "$NIRI_CFG" 2>/dev/null; then
+            # Detect the correct binary
+            local qs_bin="qs"
+            command -v noctalia-qs &>/dev/null && qs_bin="noctalia-qs"
             echo '' >> "$NIRI_CFG"
-            echo '// -- Noctalia Shell (added by installer) --' >> "$NIRI_CFG"
-            echo 'spawn-at-startup "qs" "-c" "noctalia-shell"' >> "$NIRI_CFG"
-            ok "Noctalia spawn line appended"
+            echo '// -- Noctalia Shell (added by nirolia installer) --' >> "$NIRI_CFG"
+            echo "spawn-at-startup \"${qs_bin}\" \"-c\" \"noctalia-shell\"" >> "$NIRI_CFG"
+            ok "Noctalia spawn line appended (using $qs_bin)"
+        fi
+        # Ensure D-Bus activation is present
+        if ! grep -q 'dbus-update-activation-environment' "$NIRI_CFG" 2>/dev/null; then
+            echo 'spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"' >> "$NIRI_CFG"
+            ok "D-Bus activation line appended"
         fi
     fi
 fi
@@ -55,9 +63,17 @@ if [[ "$write_config" == true ]]; then
     // WLR_NO_HARDWARE_CURSORS "1"'
     fi
 
-    # Write config with envsubst-style substitution
-    sed "s|{{NVIDIA_ENV}}|${nvidia_env}|" "$REPO_ROOT/configs/config.kdl" > "$NIRI_CFG"
-    ok "Niri config deployed to $NIRI_CFG"
+    # Detect the correct noctalia binary
+    local qs_bin="qs"
+    command -v noctalia-qs &>/dev/null && qs_bin="noctalia-qs"
+    [[ -n "${NOCTALIA_QS_BIN:-}" ]] && qs_bin="$NOCTALIA_QS_BIN"
+    noctalia_spawn="spawn-at-startup \"${qs_bin}\" \"-c\" \"noctalia-shell\""
+
+    # Write config with placeholder substitution
+    sed -e "s|{{NVIDIA_ENV}}|${nvidia_env}|" \
+        -e "s|{{QS_BIN}}|${qs_bin}|g" \
+        "$REPO_ROOT/configs/config.kdl" > "$NIRI_CFG"
+    ok "Niri config deployed (noctalia via: $qs_bin)"
 fi
 
 # -- GTK dark theme -----------------------------------------------------------

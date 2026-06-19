@@ -70,16 +70,22 @@ environment {
 }
 
 // -- Startup ----------------------------------------------------------------
-spawn-at-startup "qs" "-c" "noctalia-shell"
+// D-Bus activation (required for screen sharing, file pickers, etc.)
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=niri"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "/usr/lib/polkit-kde-authentication-agent-1"
+
+// Noctalia Shell — provides bar, dock, launcher, notifications, lock screen
+// The binary is either "qs" (quickshell from repos) or "noctalia-qs" (their fork).
+// The installer detects which one is available and writes the correct command.
+spawn-at-startup "{{QS_BIN}}" "-c" "noctalia-shell"
 
 // -- Keybinds ---------------------------------------------------------------
 binds {
     Mod+Return       { spawn "kitty"; }
     Mod+T            { spawn "kitty"; }
-    Mod+Space        { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "launcher" "open"; }
-    Mod+L            { spawn "qs" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
+    Mod+Space        { spawn "{{QS_BIN}}" "-c" "noctalia-shell" "ipc" "call" "launcher" "open"; }
+    Mod+L            { spawn "{{QS_BIN}}" "-c" "noctalia-shell" "ipc" "call" "lockScreen" "lock"; }
     Mod+Shift+S      { screenshot; }
     Mod+Q            { close-window; }
     Mod+F            { maximize-column; }
