@@ -1,0 +1,234 @@
+# ---------------------------------------------------------------------------
+#  starship.toml — iNiR-inspired Material Design prompt
+#  Dark theme with rounded segments and dev-focused modules.
+#  Designed for zsh + kitty + JetBrains Mono Nerd Font.
+# ---------------------------------------------------------------------------
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Prompt structure
+format = """
+[](fg:#1e1e2e)\
+$os\
+$username\
+[](fg:#1e1e2e bg:#313244)\
+$directory\
+[](fg:#313244 bg:#45475a)\
+$git_branch\
+$git_status\
+[](fg:#45475a bg:#585b70)\
+$golang\
+$python\
+$rust\
+$nodejs\
+$java\
+$docker_context\
+[](fg:#585b70)\
+$fill\
+$cmd_duration\
+$time\
+$line_break\
+$character"""
+
+# Right-side padding fill
+[fill]
+symbol = ' '
+
+# OS icon
+[os]
+disabled = false
+style = "bg:#1e1e2e fg:#cdd6f4"
+format = '[ $symbol ]($style)'
+
+[os.symbols]
+Arch = ""
+EndeavourOS = ""
+Linux = ""
+
+# Username (only in SSH or root)
+[username]
+show_always = false
+style_user = "bg:#1e1e2e fg:#cdd6f4"
+style_root = "bg:#1e1e2e fg:#f38ba8"
+format = '[$user ]($style)'
+
+# Directory — truncated, clean
+[directory]
+style = "bg:#313244 fg:#89b4fa"
+format = '[ $path ]($style)'
+truncation_length = 3
+truncation_symbol = ".../"
+read_only = " "
+read_only_style = "bg:#313244 fg:#f38ba8"
+
+[directory.substitutions]
+"Documents" = ""
+"Downloads" = ""
+"Pictures" = ""
+"Projects" = ""
+"~" = ""
+
+# Git branch
+[git_branch]
+symbol = " "
+style = "bg:#45475a fg:#a6e3a1"
+format = '[ $symbol$branch ]($style)'
+
+# Git status — compact indicators
+[git_status]
+style = "bg:#45475a fg:#f9e2af"
+format = '[$all_status$ahead_behind ]($style)'
+conflicted = "="
+ahead = ""
+behind = ""
+diverged = ""
+up_to_date = ""
+untracked = "?"
+stashed = ""
+modified = "!"
+staged = "+"
+renamed = ""
+deleted = ""
+
+# -- Language modules --------------------------------------------------------
+
+[golang]
+symbol = " "
+style = "bg:#585b70 fg:#89dceb"
+format = '[ $symbol$version ]($style)'
+detect_files = ["go.mod", "go.sum"]
+
+[python]
+symbol = " "
+style = "bg:#585b70 fg:#f9e2af"
+format = '[ $symbol$version( \($virtualenv\)) ]($style)'
+detect_files = ["requirements.txt", "pyproject.toml", "Pipfile"]
+
+[rust]
+symbol = " "
+style = "bg:#585b70 fg:#fab387"
+format = '[ $symbol$version ]($style)'
+
+[nodejs]
+symbol = " "
+style = "bg:#585b70 fg:#a6e3a1"
+format = '[ $symbol$version ]($style)'
+detect_files = ["package.json", ".node-version"]
+
+[java]
+symbol = " "
+style = "bg:#585b70 fg:#f38ba8"
+format = '[ $symbol$version ]($style)'
+
+[docker_context]
+symbol = " "
+style = "bg:#585b70 fg:#89b4fa"
+format = '[ $symbol$context ]($style)'
+only_with_files = true
+
+# -- Right side indicators ---------------------------------------------------
+
+[cmd_duration]
+min_time = 2_000
+style = "fg:#6c7086"
+format = '[ $duration]($style) '
+
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "fg:#6c7086"
+format = '[ $time]($style)'
+
+# -- Prompt character ---------------------------------------------------------
+
+[character]
+success_symbol = '[](bold #89b4fa)'
+error_symbol = '[](bold #f38ba8)'
+vimcmd_symbol = '[](bold #a6e3a1)'
+
+# -- Disabled modules (reduce noise) ----------------------------------------
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[azure]
+disabled = true
+
+[package]
+disabled = true
+
+[terraform]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[conda]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[swift]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[haskell]
+disabled = true
+
+[julia]
+disabled = true
+
+[elm]
+disabled = true
+
+[elixir]
+disabled = true
+
+[erlang]
+disabled = true
+
+[scala]
+disabled = true
+
+[crystal]
+disabled = true
+
+[dart]
+disabled = true
+
+[vlang]
+disabled = true
+
+[zig]
+disabled = true
+
+[cmake]
+disabled = true
+
+[cobol]
+disabled = true
+
+[daml]
+disabled = true
+
+[buf]
+disabled = true
+
+[meson]
+disabled = true
+
+[red]
+disabled = true
+
+[solidity]
+disabled = true
